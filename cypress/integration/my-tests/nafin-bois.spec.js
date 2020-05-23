@@ -1,0 +1,57 @@
+describe('https://www.nafin.com/portalnf/content/herramientas-de-negocio/simulador-de-creditos/simulador-de-creditos.do', () => {
+    describe('Page loads', () => {
+        it('Debería cargar la página', () => {
+            cy.visit('https://www.nafin.com/portalnf/content/herramientas-de-negocio/simulador-de-creditos/simulador-de-creditos.do')
+        })
+    })
+
+    describe('Filled forms', () => {
+        it('Debería de llenar el formulario', () => {
+            cy.visit('https://www.nafin.com/portalnf/content/herramientas-de-negocio/simulador-de-creditos/simulador-de-creditos.do')
+            cy.get('#dispDate')
+              .clear()
+              .type('05/05/2020')
+              .type('{enter}')
+            cy.get('#creditAmount')
+              .clear()
+              .type('20000')
+            cy.get('#paymentMethod')
+              .select('1')
+            cy.get('#period')
+              .select('2')
+            cy.get('#rate')
+              .clear()
+              .type('15.0')
+            cy.contains('Calcular')
+              .click()
+        })
+    })
+
+    describe('Row count', () => {
+        it('Debe de contar el número de filas en la tabla', () => {
+            cy.visit('https://www.nafin.com/portalnf/content/herramientas-de-negocio/simulador-de-creditos/simulador-de-creditos.do')
+            cy.get('#dispDate')
+              .clear()
+              .type('05/05/2020')
+              .type('{enter}')
+            cy.get('#creditAmount')
+              .clear()
+              .type('20000')
+            cy.get('#paymentMethod')
+              .select('1')
+            cy.get('#period')
+              .select('2')
+            cy.get('#rate')
+              .clear()
+              .type('15.0')
+            cy.contains('Calcular')
+              .click()
+            cy.contains('Ahora no')
+              .click()
+            cy.get('#resultadosSimulador')
+              .contains('td',/^24$/)
+              .should('be.visible')
+            //cy.contains('24').should('be.visible')
+        })
+    })
+});
